@@ -1,15 +1,16 @@
 {
     "name": "somata-lambda",
-    "version": "0.1.12",
+    "version": "0.0.1",
     "repository": {
         "type": "git",
         "url": "http://github.com/somata/somata-lambda"
     },
     "main": "lib/index.js",
     "scripts": {
-        "build": "cjsx --bare -o lib -c src"
+        "build": "coffee --bare -o lib -c src"
     },
     "dependencies": {
+        "bluebird": "^3.5.1",
         "buffer": "4.9.x",
         "deep-extend": "0.4.x",
         "kefir": "3.2.x",

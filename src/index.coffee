@@ -1,4 +1,5 @@
-AWS = require('aws-sdk')
+AWS = require 'aws-sdk'
+Promise = require 'bluebird'
 
 class Client
     constructor: (options={}) ->
@@ -11,10 +12,17 @@ class Client
             Payload: JSON.stringify {method, args}
         }, (err, data) ->
             if err?
-                console.log '[remote] Error:', err
                 cb err
             else
-                # console.log '[remote] Success:', data
                 cb null, JSON.parse data.Payload
 
-module.exports = {Client}
+    remotePromise: (service, method, args...) ->
+        Promise.fromCallback @remote.bind(@, service, method, args...)
+
+Service = (name, methods={}) ->
+    (event, context, cb) ->
+        {method, args} = event
+        args ||= []
+        methods[method](args..., cb)
+
+module.exports = {Client, Service}
